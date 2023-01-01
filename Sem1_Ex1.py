@@ -5,10 +5,10 @@
 #- 1 -> нет
 
 number=int(input('Введите число от 1 до 7: '))
-if number<8:
+if number<8 and number>0:
 	if number==6 or number==7:
 		print('День выходной')
 	else:
 		print('День будничний')
 else:
-	print('Значение числа больше 7')
+	print('Значение числа не входит в интервал от 1 до 7')
