@@ -1,6 +1,8 @@
 # Создайте программу для игры в 'Крестики-нолики'
 # НЕОБЯЗАТЕЛЬНО Добавить игру против бота с интеллектом
 
+'''
+#первоначальный код
 from random import randint
 
 # функция проверки ввода
@@ -95,5 +97,91 @@ for i in range(8):
     else:
         if i == 7:
             print('Поле заполнено. Стоп игра. Победителей нет.')
+        else:
+            continue
+'''
+from random import randint
+
+# функция проверки ввода
+def f_input(number, res):
+    while True:
+        if number in ('А1', 'А2', 'А3', 'С1', 'С2', 'С3', 'Б1', 'Б2', 'Б3', 'И1', ' И2', 'И3', 'В1', 'В2', 'В3'):
+            number = input('Переключите на английскую раскладку:  ').upper()
+        elif number in res:
+            number = input('Такое значение уже было. Введите новое значение поля:  ').upper()
+        elif number in ('A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3'):
+            break
+        else:
+            number = input('Вы должны ввести значение поля  ').upper()
+    return number
+
+# функция вывода поля на экран
+def print_games(dict_games):
+    print('\n     1     2     3\n')
+    print('A   ', my_dict['A1'], ' | ', my_dict['A2'], ' | ', my_dict['A3'])
+    print('    ----------------')
+    print('B   ', my_dict['B1'], ' | ', my_dict['B2'], ' | ', my_dict['B3'])
+    print('    ----------------')
+    print('C   ', my_dict['C1'], ' | ', my_dict['C2'], ' | ', my_dict['C3'])
+    print()
+
+
+my_dict = {'A1': '*', 'A2': '*', 'A3': '*',
+           'B1': '*', 'B2': '*', 'B3': '*',
+           'C1': '*', 'C2': '*', 'C3': '*'}
+
+# имена игроков
+print('Сыграем в игру крестики-нолики?')
+player1 = input('Первый игрок, представьтесь, пожалуйста: ')
+player2 = input('Второй игрок, представьтесь, пожалуйста: ')
+player1 = player1[0].upper()+player1[1:]
+player2 = player2[0].upper()+player2[1:]
+print()
+
+res = []
+print_games(my_dict)
+
+# определяем кто ходит первый
+first = randint(1, 2)
+if first == 1:
+    number = (input(f'Первым ходит {player1}. Введите значение поля '))
+    number = f_input(number.upper(), res)
+    my_dict[number] = 'X'
+
+else:
+    number = (input(f'Первым ходит {player2}. Введите значение поля  '))
+    number = f_input(number.upper(), res)
+    my_dict[number] = '0'
+    
+res.append(number.upper())
+print_games(my_dict)
+
+for i in range(8):
+    first += 1
+    if first % 2 == 0:
+        player = player2
+        number = f_input(input(f'{player}, Ваш ход: ').upper(), res)
+        my_dict[number] = '0'
+    else:
+        player = player1
+        number = f_input(input(f'{player}, Ваш ход: ').upper(), res)
+        my_dict[number] = 'X'
+
+    res.append(number.upper())
+    print_games(my_dict)
+
+    if (my_dict['A1'] == my_dict['A2'] == my_dict['A3'] != '*')\
+        or (my_dict['B1'] == my_dict['B2'] == my_dict['B3'] != '*')\
+        or (my_dict['C1'] == my_dict['C2'] == my_dict['C3'] != '*')\
+        or (my_dict['A1'] == my_dict['B1'] == my_dict['C1'] != '*')\
+        or (my_dict['A2'] == my_dict['B2'] == my_dict['C2'] != '*')\
+        or (my_dict['A3'] == my_dict['B3'] == my_dict['C3'] != '*')\
+        or (my_dict['A1'] == my_dict['B2'] == my_dict['C3'] != '*')\
+        or (my_dict['C1'] == my_dict['B2'] == my_dict['A3'] != '*'):
+        print(f'Победителем становится {player1}! Поздравляю!' if player == player1 else (
+            f'Победителем становится {player2}! Поздравляю!'))
+    else:
+        if i == 7:
+            print('Поле заполнено. Стоп игра. Победителей нет')
         else:
             continue
